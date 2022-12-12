@@ -14,7 +14,7 @@ export default {
     <img alt="Vue logo" src="../assets/githubM.png" width="30">
   </div>
 </template>
-<style>
+<style scoped>
 .header{
   text-align: center;
   background-color: black;

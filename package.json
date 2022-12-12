@@ -10,6 +10,7 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "firebase": "^9.14.0",
+    "uuid": "^9.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.1.6"
   },
@@ -37,9 +38,16 @@
     "rules": {
       "vue/no-multiple-template-root": "off",
       "vue/multi-word-component-names": "off",
-      "vue/component-tags-order": ["error", {
-        "order": ["script", "template", "style"]
-      }]
+      "vue/component-tags-order": [
+        "error",
+        {
+          "order": [
+            "script",
+            "template",
+            "style"
+          ]
+        }
+      ]
     }
   },
   "browserslist": [

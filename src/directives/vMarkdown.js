@@ -1,4 +1,10 @@
 const rules = [
+    //Image  ![This is a alt text.](/image/logo.png "This is a sample image.")
+    [
+      /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/
+      ,`<img src="$1" alt="$2" width="120px" height="100px"/>`
+    ],
+
     //header rules
     [/#{6}\s?([^\n]+)/g, "<h6>$1</h6>"],
     [/#{5}\s?([^\n]+)/g, "<h5>$1</h5>"],
@@ -7,20 +13,22 @@ const rules = [
     [/#{2}\s?([^\n]+)/g, "<h2>$1</h2>"],
     [/#{1}\s?([^\n]+)/g, "<h1>$1</h1>"],
     //bold, italics and paragragh rules
-    [/\*\*\s?([^\n]+)\*\*/g, "<b>$1</b>"],
-    [/\*\s?([^\n]+)\*/g, "<i>$1</i>"],
+    [/\*\s?([^\n]+)\*/g, "<b>$1</b>"],
+    [/_\s?([^\n]+)_/g, "<i>$1</i>"],
     [/__([^_]+)__/g, "<b>$1</b>"],
     [/_([^_`]+)_/g, "<i>$1</i>"],
-    [/([^\n]+\n?)/g, "<p>$1</p>"],
+    [/([^\n]+\n?)/g, "<div>$1</div>"],
+
+
     //links
     [
-      /\[([^\]]+)\]\(([^)]+)\)/g,
+       /\[([^\]]+)\]\(([^)]+)\)/g,
       '<a href="$2" style="color:#2A5DB0 ;text-decoration: none;">$1</a>',
     ],
     //highlights
     [
       /(`)(\s?[^\n,]+\s?)(`)/g,
-      '<a style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$2</a>',
+      '<a style="background-color:lightgrey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$2</a>',
     ],
     // [
     //   /(```sh\n)(([^`]+)\s?\n)(```)/g,
@@ -36,19 +44,20 @@ const rules = [
     [/([^\n]+)\n\s+=+/g, "<h1>$1</h1><hr />"],
     [/([^\n]+)\n\s+-+/g, "<h2>$1</h2><hr />"],
   
-    //Image
-    [
-      /!\[([^\]]+)\]\(([^)]+)\s"([^")]+)"\)/g,
-      '<img src="$2" alt="$1" title="$3" />',
-    ],
   ];
+  const updateDom = function(el, value)
+  {
+    let html = value;
+    rules.forEach(([rule, template]) => {
+        html= html.replace(rule, template)
+    })
+    el.innerHTML = html;
+  }
   export const vMarkdown={
     beforeMount: (el) => {
-          let html = el.textContent;
-          rules.forEach(([rule, template]) => {
-              html= html.replace(rule, template)
-          })
-          html = html.replace( );
-          el.innerHTML = html;
+      updateDom(el, el.textContent)
+      },
+    beforeUpdate: (el, binding) => {
+      updateDom(el, binding.value)
       },
   }
